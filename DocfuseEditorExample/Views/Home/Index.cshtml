@@ -1,0 +1,27 @@
+﻿@model DocfuseEditorExample.Models.EditorViewModel
+
+<div class="row">
+    <div class="col-md-12" style="margin-top: 1%">
+        <button class="btn btn-info" id="save">
+            <span class="glyphicon glyphicon-floppy-saved"></span>
+            Gem Dokument
+        </button>
+    </div>
+</div>
+<div class="row">    
+    <div class="col-md-12" style="margin-top: 1%">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "documentForm", message = Model.Message }))
+        {
+            <div class="input-group" style="width: 100%">
+                @Html.TextAreaFor(m => m.Message,
+                new
+                {
+                    rows = "20",
+                    style = "resize:none;width:400px;",
+                    placeholder = Html.DisplayNameFor(m => m.Message),
+                    @class = "form-control input-lg textarea-editor"
+                })
+            </div>
+        }
+    </div>
+</div>
