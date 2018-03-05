@@ -9,7 +9,6 @@
             ["para", ["ul", "ol", "paragraph"]],
             ["fullscreen", ["fullscreen"]]
         ],
-        //width: 800,
         height: 600,                 // set editor height
         minHeight: null,             // set minimum height of editor
         maxHeight: null,             // set maximum height of editor
@@ -26,8 +25,15 @@
             type: 'post',
             dataType: 'json',
             data: data,
-            success: function (res) {
-                console.log(res);
+            success: function (response) {
+                if (response) {
+                    alert(response.message);
+                }
+            },
+            error: function(response) {
+                if (response) {
+                    alert(response.message);
+                }
             }
         });
             

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using Aspose.Words;
 using Aspose.Words.Saving;
-using System.Web;
 using System.Web.Mvc;
 using DocfuseEditorExample.Models;
 
@@ -15,7 +12,10 @@ namespace DocfuseEditorExample.Controllers
     {
         public ActionResult Index()
         {
-            byte[] file = System.IO.File.ReadAllBytes(@"C:\Users\z6lnb\Desktop\docEx.docx");
+            byte[] file = System.IO.File.ReadAllBytes(@"C:\Users\z6lnb\Desktop\Docfuse\example.docx");
+            //byte[] file = System.IO.File.ReadAllBytes(@"C:\Users\z6lnb\Desktop\Docfuse\Cabi 010786 3.91 Informationsmøde (med advarsel).docx");
+            //byte[] file = System.IO.File.ReadAllBytes(@"C:\Users\z6lnb\Desktop\Docfuse\Cabi 010877 1.1 Jobsamtale.docx");
+            //byte[] file = System.IO.File.ReadAllBytes(@"C:\Users\z6lnb\Desktop\Docfuse\Cabi 010877 1.44 Indkaldelse vedr. aktivering.docx");
             Stream stream = new MemoryStream(file);
             var doc = new Document(stream);
 
@@ -40,9 +40,23 @@ namespace DocfuseEditorExample.Controllers
         }
 
         [HttpPost]
-        public void SaveDocument(EditorViewModel editor)
+        public JsonResult SaveDocument(EditorViewModel editor)
         {
-            var lol = editor;
+            try
+            {
+                string html = editor.Message;
+                byte[] bytes = Encoding.UTF8.GetBytes(html);
+                Stream stream = new MemoryStream(bytes);
+
+                var doc = new Document(stream);
+                doc.Save(@"C:\Users\z6lnb\Desktop\Docfuse\docxFromHtml.docx");
+
+                return new JsonResult { Data = new { success = true, message = "Dokumentet er gemt" } };
+            }
+            catch (Exception e)
+            {
+                return new JsonResult { Data = new { success = false, message = e.Message } };
+            }
         }
     }
 }
