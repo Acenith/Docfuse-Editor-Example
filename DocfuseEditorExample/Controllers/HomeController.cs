@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using Aspose.Words;
 using Aspose.Words.Saving;
@@ -12,10 +13,12 @@ namespace DocfuseEditorExample.Controllers
     {
         public ActionResult Index()
         {
-            byte[] file = System.IO.File.ReadAllBytes(@"C:\Users\z6lnb\Desktop\Docfuse\example.docx");
-            //byte[] file = System.IO.File.ReadAllBytes(@"C:\Users\z6lnb\Desktop\Docfuse\Cabi 010786 3.91 Informationsmøde (med advarsel).docx");
-            //byte[] file = System.IO.File.ReadAllBytes(@"C:\Users\z6lnb\Desktop\Docfuse\Cabi 010877 1.1 Jobsamtale.docx");
-            //byte[] file = System.IO.File.ReadAllBytes(@"C:\Users\z6lnb\Desktop\Docfuse\Cabi 010877 1.44 Indkaldelse vedr. aktivering.docx");
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)?.Substring(6);
+            byte[] file = System.IO.File.ReadAllBytes($@"{path}\Documents\example.docx");
+            //byte[] file = System.IO.File.ReadAllBytes($@"{path}\Documents\Cabi 010786 3.91 Informationsmøde (med advarsel).docx");
+            //byte[] file = System.IO.File.ReadAllBytes($@"{path}\Documents\Cabi 010877 1.1 Jobsamtale.docx");
+            //byte[] file = System.IO.File.ReadAllBytes($@"{path}\Documents\Cabi 010877 1.44 Indkaldelse vedr. aktivering.docx");
+
             Stream stream = new MemoryStream(file);
             var doc = new Document(stream);
 
@@ -49,7 +52,8 @@ namespace DocfuseEditorExample.Controllers
                 Stream stream = new MemoryStream(bytes);
 
                 var doc = new Document(stream);
-                doc.Save(@"C:\Users\z6lnb\Desktop\Docfuse\docxFromHtml.docx");
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)?.Substring(6);
+                doc.Save($@"{path}\Documents\docxFromHtml.docx");
 
                 return new JsonResult { Data = new { success = true, message = "Dokumentet er gemt" } };
             }
